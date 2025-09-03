@@ -1,0 +1,122 @@
+name: Deploy Terpedia Theme to Production
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup PHP for version management
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        
+    - name: Bump version automatically
+      run: |
+        echo "Current version: $(php version-manager.php current)"
+        new_version=$(php version-manager.php increment patch)
+        echo "New version: $new_version"
+        
+    - name: Commit version bump
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add style.css functions.php
+        git commit -m "Bump theme version to $(php version-manager.php current)" || exit 0
+        git push
+      
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.8.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        
+    - name: Add SSH known hosts
+      run: |
+        ssh-keyscan -H -p 18765 giow1015.siteground.us >> ~/.ssh/known_hosts
+        
+    - name: Deploy theme to production
+      run: |
+        # Create deployment package
+        tar -czf terpedia-theme.tar.gz --exclude='.git' --exclude='.github' --exclude='node_modules' .
+        
+        # Upload to server
+        scp -P 18765 terpedia-theme.tar.gz ${{ secrets.SSH_USER }}@giow1015.siteground.us:/tmp/
+        
+        # Deploy via SSH
+        ssh -p 18765 ${{ secrets.SSH_USER }}@giow1015.siteground.us << 'EOF'
+          # Navigate to WordPress themes directory
+          cd ${{ secrets.WP_THEMES_PATH }}/terpedia-theme
+          
+          # Log deployment start
+          echo "🚀 Starting theme deployment at $(date)"
+          
+          # Backup current theme
+          if [ -d "backup" ]; then rm -rf backup; fi
+          mkdir backup
+          cp -r . backup/ 2>/dev/null || true
+          
+          # Extract new theme files
+          cd /tmp
+          tar -xzf terpedia-theme.tar.gz
+          
+          # Remove old theme files (except backup)
+          cd ${{ secrets.WP_THEMES_PATH }}/terpedia-theme
+          find . -maxdepth 1 ! -name 'backup' ! -name '.' -exec rm -rf {} +
+          
+          # Copy new files
+          cp -r /tmp/terpedia-theme/* .
+          
+          # Set proper permissions
+          find . -type f -exec chmod 644 {} \;
+          find . -type d -exec chmod 755 {} \;
+          
+          # Clear WordPress cache if WP-CLI is available
+          if command -v wp &> /dev/null; then
+            wp cache flush --path=${{ secrets.WP_ROOT_PATH }} --allow-root
+            wp theme activate terpedia-theme --path=${{ secrets.WP_ROOT_PATH }} --allow-root
+          fi
+          
+          # Cleanup
+          rm -f /tmp/terpedia-theme.tar.gz
+          rm -rf /tmp/terpedia-theme
+          
+          echo "Theme deployment completed successfully"
+        EOF
+        
+    - name: Verify deployment
+      run: |
+        ssh -p 18765 ${{ secrets.SSH_USER }}@giow1015.siteground.us << 'EOF'
+          # Check if theme files exist
+          if [ -f "${{ secrets.WP_THEMES_PATH }}/terpedia-theme/style.css" ]; then
+            echo "✅ Theme files deployed successfully"
+            # Extract version from style.css
+            version=$(grep "Version:" "${{ secrets.WP_THEMES_PATH }}/terpedia-theme/style.css" | head -1 | cut -d' ' -f2)
+            echo "📦 Theme version: $version"
+          else
+            echo "❌ Theme deployment failed"
+            exit 1
+          fi
+          
+          # Check WordPress functionality if WP-CLI is available
+          if command -v wp &> /dev/null; then
+            active_theme=$(wp theme list --status=active --field=name --path=${{ secrets.WP_ROOT_PATH }} --allow-root)
+            echo "🎨 Active theme: $active_theme"
+          fi
+        EOF
+
+    - name: Notify deployment status
+      if: always()
+      run: |
+        if [ ${{ job.status }} == 'success' ]; then
+          echo "🚀 Terpedia theme deployed successfully to production"
+        else
+          echo "❌ Theme deployment failed"
+        fi
