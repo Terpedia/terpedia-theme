@@ -1,0 +1,539 @@
+/*
+Theme Name: Terpedia Scientific Theme
+Description: A professional theme for Terpedia - Encyclopedia of Terpenes with advanced scientific content support and BuddyPress integration
+Version: 1.1.3
+Author: Terpedia Development Team
+License: GPL v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: terpedia-scientific
+Requires at least: 6.0
+Tested up to: 6.8.2
+Requires PHP: 8.0
+*/
+
+/* Base styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    color: #1a202c;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    body {
+        color: #e0e0e0;
+        background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    }
+}
+
+/* Header styles */
+.site-header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Modern card styling */
+.content-area {
+    padding: 2rem 0;
+}
+
+article {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.site-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #2d3748;
+    text-decoration: none;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.site-description {
+    color: #4a5568;
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+}
+
+/* Navigation */
+.main-navigation {
+    margin-top: 1rem;
+}
+
+.main-navigation ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+}
+
+.main-navigation a {
+    color: #4a5568;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.main-navigation a:hover {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+}
+
+/* Content Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #2d3748;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+
+p {
+    margin-bottom: 1rem;
+    color: #4a5568;
+}
+
+/* Modern Links */
+a {
+    color: #667eea;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #764ba2;
+    text-decoration: underline;
+}
+
+/* Entry Content */
+.entry-content {
+    margin-top: 1.5rem;
+}
+
+.entry-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #2d3748;
+}
+
+.entry-meta {
+    color: #718096;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+    
+    .site-title {
+        font-size: 2rem;
+    }
+    
+    .main-navigation ul {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    article {
+        padding: 1.5rem;
+    }
+}
+
+/* Footer */
+.site-footer {
+    background: rgba(45, 55, 72, 0.95);
+    color: #e2e8f0;
+    padding: 2rem 0;
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.main-navigation a {
+    color: #2d3748;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.main-navigation a:hover {
+    background: rgba(103, 126, 234, 0.1);
+    color: #667eea;
+}
+
+/* Container and layout */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.content-area {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    margin: 2rem auto;
+    padding: 3rem;
+    border-radius: 15px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    color: #2d3748;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+h1 {
+    font-size: 2.5rem;
+    border-bottom: 3px solid #667eea;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+h2 {
+    font-size: 2rem;
+    color: #4a5568;
+    margin-top: 2rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+    color: #667eea;
+}
+
+p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+/* Molecular data display */
+.molecular-data {
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.molecular-data::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+}
+
+.molecular-formula {
+    font-family: 'Courier New', monospace;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #2d3748;
+    background: rgba(103, 126, 234, 0.1);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    display: inline-block;
+    margin-bottom: 1rem;
+    border-left: 4px solid #667eea;
+}
+
+.molecular-weight,
+.boiling-point,
+.density,
+.smiles-notation {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    border-left: 3px solid #4299e1;
+}
+
+.molecular-label {
+    font-weight: 600;
+    color: #2d3748;
+    min-width: 140px;
+    margin-right: 1rem;
+}
+
+.molecular-value {
+    font-family: 'Courier New', monospace;
+    color: #4a5568;
+    font-size: 1.1rem;
+}
+
+/* Terpene profile styles */
+.terpene-profile {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.terpene-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.terpene-title {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.terpene-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.terpene-content {
+    padding: 2rem;
+}
+
+/* Research article styles */
+.research-article {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    border-left: 5px solid #667eea;
+}
+
+.research-title {
+    color: #2d3748;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+.research-meta {
+    color: #718096;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.research-date,
+.research-category {
+    background: rgba(103, 126, 234, 0.1);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+}
+
+/* BuddyPress integration */
+.buddypress-wrapper {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2rem 0;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+#buddypress .activity-list {
+    background: transparent;
+    border: none;
+}
+
+#buddypress .activity-item {
+    background: rgba(247, 250, 252, 0.8);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid #667eea;
+}
+
+#buddypress .activity-avatar {
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#buddypress .activity-content {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Footer */
+.site-footer {
+    background: rgba(45, 55, 72, 0.95);
+    color: white;
+    padding: 3rem 0 2rem;
+    margin-top: 4rem;
+    text-align: center;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section h3 {
+    color: #e2e8f0;
+    margin-bottom: 1rem;
+}
+
+.footer-section p,
+.footer-section a {
+    color: #a0aec0;
+    text-decoration: none;
+    line-height: 1.6;
+}
+
+.footer-section a:hover {
+    color: #667eea;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 2rem;
+    color: #a0aec0;
+    font-size: 0.9rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+    
+    .content-area {
+        padding: 2rem 1.5rem;
+        margin: 1rem auto;
+    }
+    
+    .main-navigation ul {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .site-title {
+        font-size: 2rem;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .terpene-title {
+        font-size: 2rem;
+    }
+    
+    .molecular-data {
+        padding: 1.5rem;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: left;
+    }
+}
+
+/* Scientific keyword highlighting */
+.scientific-keyword {
+    background: linear-gradient(120deg, rgba(103, 126, 234, 0.2) 0%, rgba(103, 126, 234, 0.1) 100%);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-weight: 500;
+    color: #2d3748;
+    text-decoration: none;
+    border-bottom: 1px dotted #667eea;
+}
+
+.scientific-keyword:hover {
+    background: rgba(103, 126, 234, 0.3);
+    border-bottom: 1px solid #667eea;
+}
+
+/* Loading animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.content-area {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* Print styles */
+@media print {
+    body {
+        background: white;
+        color: black;
+    }
+    
+    .site-header,
+    .site-footer,
+    .main-navigation {
+        display: none;
+    }
+    
+    .content-area {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        background: white;
+    }
+}
