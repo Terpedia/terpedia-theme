@@ -1,0 +1,337 @@
+/* 
+BuddyPress Activity Feed Styling - React Beta Design Match
+Based on mobile interface design with modern card layout
+*/
+
+/* Activity Stream Container */
+.activity {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+#buddypress .activity-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Individual Activity Items (matching React cards) */
+#buddypress .activity-list li.activity-item {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    margin-bottom: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+#buddypress .activity-list li.activity-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Activity Header */
+#buddypress .activity-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 0;
+}
+
+/* Avatar styling to match React design */
+#buddypress .activity-avatar {
+    margin-right: 12px;
+    margin-bottom: 0;
+}
+
+#buddypress .activity-avatar img.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* User name and meta */
+#buddypress .activity-header p {
+    margin: 0;
+    flex: 1;
+}
+
+#buddypress .activity-header a {
+    font-weight: 600;
+    font-size: 16px;
+    color: #1a202c;
+    text-decoration: none;
+}
+
+#buddypress .activity-header .time-since {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 400;
+    margin-left: 8px;
+}
+
+/* Tersona Badge (matching green badge in React) */
+.activity-tersona-badge {
+    background: #10b981;
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 12px;
+    margin-left: 8px;
+}
+
+/* Activity Content */
+#buddypress .activity-content {
+    padding: 0;
+    margin-bottom: 16px;
+}
+
+#buddypress .activity-content .activity-inner {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #1a202c;
+}
+
+/* Terpene name highlighting (matching React design) */
+.terpene-name {
+    color: #dc2626;
+    font-weight: 600;
+}
+
+/* Activity links (hashtags and URLs) */
+#buddypress .activity-content a {
+    color: #0ea5e9;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+#buddypress .activity-content a:hover {
+    text-decoration: underline;
+}
+
+/* Activity Meta (likes, comments, share) */
+#buddypress .activity-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Activity action buttons (matching React design) */
+.activity-meta .activity-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.activity-meta .generic-button {
+    background: none;
+    border: none;
+    color: #64748b;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.activity-meta .generic-button:hover {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+}
+
+.activity-meta .generic-button.liked {
+    color: #dc2626;
+}
+
+/* Heart icon for likes */
+.activity-like-btn::before {
+    content: "♡";
+    margin-right: 4px;
+}
+
+.activity-like-btn.liked::before {
+    content: "♥";
+    color: #dc2626;
+}
+
+/* Comment icon */
+.activity-comment-btn::before {
+    content: "💬";
+    margin-right: 4px;
+}
+
+/* Share icon */
+.activity-share-btn::before {
+    content: "↗";
+    margin-right: 4px;
+}
+
+/* Activity Comments */
+#buddypress .activity-comments {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+#buddypress .activity-comments ul.activity-comments {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#buddypress .activity-comments .activity-comment {
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 8px;
+}
+
+/* Activity Form (What's on your mind?) */
+#buddypress form#whats-new-form {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#buddypress #whats-new-textarea {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    padding: 16px 0;
+    resize: none;
+    outline: none;
+    color: #1a202c;
+}
+
+#buddypress #whats-new-textarea::placeholder {
+    color: #9ca3af;
+    font-size: 16px;
+}
+
+/* Post button (matching React design) */
+#buddypress #whats-new-submit {
+    background: #a78bfa;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#buddypress #whats-new-submit:hover {
+    background: #8b5cf6;
+    transform: translateY(-1px);
+}
+
+/* Activity Icons Row */
+.activity-post-form-options {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    margin-bottom: 12px;
+}
+
+.activity-post-form-options .post-option {
+    color: #64748b;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.activity-post-form-options .post-option:hover {
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    #buddypress .activity-list {
+        padding: 0 16px;
+    }
+    
+    #buddypress .activity-list li.activity-item {
+        margin-bottom: 12px;
+        padding: 16px;
+        border-radius: 12px;
+    }
+    
+    #buddypress .activity-avatar img.avatar {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .activity-meta {
+        gap: 12px;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    #buddypress .activity-list li.activity-item {
+        background: rgba(45, 55, 72, 0.95);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    #buddypress .activity-header a,
+    #buddypress .activity-content .activity-inner {
+        color: #e0e0e0;
+    }
+    
+    #buddypress form#whats-new-form {
+        background: rgba(45, 55, 72, 0.95);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    #buddypress #whats-new-textarea {
+        color: #e0e0e0;
+    }
+    
+    #buddypress #whats-new-textarea::placeholder {
+        color: #a0a0a0;
+    }
+}
+
+/* Loading states */
+.activity-loading {
+    text-align: center;
+    padding: 40px;
+    color: #64748b;
+    font-style: italic;
+}
+
+/* Error states */
+.activity-error {
+    background: #fee2e2;
+    color: #dc2626;
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #fecaca;
+}
