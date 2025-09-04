@@ -43,7 +43,7 @@ jobs:
         
         # Sync to production server
         rsync -av --delete \
-          -e "ssh -p 18765 -o StrictHostKeyChecking=no" \
+          -e "ssh -p 18765 -o StrictHostKeyChecking=no -o IdentitiesOnly=yes" \
           /tmp/terpedia-theme-sync/ \
           giow1015@giow1015.siteground.us:./www/terpedia.com/public_html/wp-content/themes/terpedia-theme/
         
@@ -54,15 +54,15 @@ jobs:
         echo "🔍 Verifying theme files on production server..."
         
         # Check if main style.css exists
-        ssh -p 18765 -o StrictHostKeyChecking=no giow1015@giow1015.siteground.us \
+        ssh -p 18765 -o StrictHostKeyChecking=no -o IdentitiesOnly=yes giow1015@giow1015.siteground.us \
           "test -f ./www/terpedia.com/public_html/wp-content/themes/terpedia-theme/style.css && echo '✅ Main style.css exists' || echo '❌ Main style.css missing'"
         
         # Check if functions.php exists
-        ssh -p 18765 -o StrictHostKeyChecking=no giow1015@giow1015.siteground.us \
+        ssh -p 18765 -o StrictHostKeyChecking=no -o IdentitiesOnly=yes giow1015@giow1015.siteground.us \
           "test -f ./www/terpedia.com/public_html/wp-content/themes/terpedia-theme/functions.php && echo '✅ functions.php exists' || echo '❌ functions.php missing'"
         
         # Check theme version
-        ssh -p 18765 -o StrictHostKeyChecking=no giow1015@giow1015.siteground.us \
+        ssh -p 18765 -o StrictHostKeyChecking=no -o IdentitiesOnly=yes giow1015@giow1015.siteground.us \
           "grep 'Version:' ./www/terpedia.com/public_html/wp-content/themes/terpedia-theme/style.css | head -1"
         
         echo "🎉 Verification completed!"
