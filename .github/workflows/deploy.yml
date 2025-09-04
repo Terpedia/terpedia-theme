@@ -77,7 +77,7 @@ jobs:
         # Deploy via SSH using sshpass
         SSHPASS="${{ secrets.SSH_PASSPHRASE }}" sshpass -e ssh -p 18765 ${{ secrets.SSH_USER }}@giow1015.siteground.us << 'EOF'
           # Navigate to WordPress themes directory
-          cd ${{ secrets.WP_THEMES_PATH }}/terpedia-theme
+          cd ${{ secrets.WP_THEMES_PATH }}
           
           # Log deployment start
           echo "🚀 Starting theme deployment at $(date)"
@@ -92,11 +92,11 @@ jobs:
           tar -xzf terpedia-theme.tar.gz
           
           # Remove old theme files (except backup)
-          cd ${{ secrets.WP_THEMES_PATH }}/terpedia-theme
-          find . -maxdepth 1 ! -name 'backup' ! -name '.' -exec rm -rf {} +
+          cd ${{ secrets.WP_THEMES_PATH }}
+          rm -rf terpedia-theme
           
           # Copy new files
-          cp -r /tmp/terpedia-theme/* .
+          cp -r /tmp/terpedia-theme .
           
           # Set proper permissions
           find . -type f -exec chmod 644 {} \;
