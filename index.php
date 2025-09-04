@@ -9,7 +9,7 @@
 get_header(); ?>
 
 <main class="content-area">
-    <div class="container">
+    <div class="container-full">
         <?php if (have_posts()) : ?>
             
             <?php if (is_home() && !is_front_page()) : ?>

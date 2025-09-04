@@ -24,12 +24,34 @@
             -webkit-backdrop-filter: blur(20px) !important;
         }
         
-        /* Ensure modern card styling */
+        /* Full-screen layout - no card styling */
         article {
-            background: rgba(255, 255, 255, 0.98) !important;
-            backdrop-filter: blur(20px) !important;
-            border-radius: 16px !important;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+            background: transparent !important;
+            backdrop-filter: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        
+        .content-area {
+            background: transparent !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            box-shadow: none !important;
+            border: none !important;
+            border-radius: 0 !important;
+        }
+        
+        /* Elementor page overrides */
+        .elementor-page article,
+        .elementor-page .content-area {
+            background: transparent !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            box-shadow: none !important;
+            border: none !important;
+            border-radius: 0 !important;
         }
     </style>
 </head>

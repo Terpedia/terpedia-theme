@@ -1,0 +1,109 @@
+/**
+ * Elementor Compatibility Styles for Terpedia Theme
+ * Ensures full-screen layout and proper Elementor integration
+ */
+
+/* Elementor page full-width support */
+.elementor-page .content-area,
+.elementor-page article,
+.elementor-page .entry-content {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    max-width: none !important;
+}
+
+/* Elementor canvas template */
+.elementor-page .terpedia-elementor-canvas {
+    width: 100%;
+    min-height: 100vh;
+    background: transparent;
+}
+
+/* Elementor container overrides */
+.elementor-section {
+    background: transparent;
+}
+
+.elementor-container {
+    max-width: none !important;
+}
+
+/* Full-width page templates */
+.page-template-full-width .content-area,
+.page-template-elementor-full-width .content-area {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+}
+
+.page-template-full-width article,
+.page-template-elementor-full-width article {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+}
+
+/* Homepage full-screen */
+.home .content-area,
+.front-page .content-area {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+}
+
+/* Elementor preview mode */
+.elementor-preview-mode .content-area,
+.elementor-preview-mode article {
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+}
+
+/* Remove any theme containers for Elementor */
+.elementor-page .container {
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Ensure full viewport height */
+.elementor-page,
+.elementor-page .site-main,
+.elementor-page .content-area {
+    min-height: 100vh;
+}
+
+/* Elementor widget styling */
+.elementor-widget {
+    background: transparent;
+}
+
+/* Fix for Elementor sections */
+.elementor-section-wrap {
+    background: transparent;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .elementor-page .content-area,
+    .elementor-page article {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+}
