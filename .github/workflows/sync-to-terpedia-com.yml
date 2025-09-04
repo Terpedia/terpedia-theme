@@ -1,0 +1,82 @@
+name: Sync Terpedia Theme to terpedia.com
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  sync-to-production:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout terpedia-theme
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.7.0
+      with:
+        ssh-private-key: ${{ secrets.TERPEDIA_SSH_PRIVATE_KEY }}
+    
+    - name: Add SSH known hosts
+      run: |
+        ssh-keyscan -H giow1015.siteground.us >> ~/.ssh/known_hosts
+    
+    - name: Sync theme to terpedia.com
+      run: |
+        echo "🎨 Syncing Terpedia Theme to terpedia.com..."
+        
+        # Create temporary directory
+        mkdir -p /tmp/terpedia-theme-sync
+        
+        # Copy all theme files
+        rsync -av --delete \
+          --exclude='.git' \
+          --exclude='.github' \
+          --exclude='*.md' \
+          --exclude='node_modules/' \
+          --exclude='.sass-cache/' \
+          --exclude='*.log' \
+          ./ /tmp/terpedia-theme-sync/
+        
+        # Sync to production server
+        rsync -av --delete \
+          -e "ssh -o StrictHostKeyChecking=no" \
+          /tmp/terpedia-theme-sync/ \
+          giow1015@giow1015.siteground.us:./www/terpedia.com/public_html/wp-content/themes/terpedia-theme/
+        
+        echo "✅ Theme sync completed successfully!"
+    
+    - name: Verify sync
+      run: |
+        echo "🔍 Verifying theme files on production server..."
+        
+        # Check if main style.css exists
+        ssh -o StrictHostKeyChecking=no giow1015@giow1015.siteground.us \
+          "test -f ./www/terpedia.com/public_html/wp-content/themes/terpedia-theme/style.css && echo '✅ Main style.css exists' || echo '❌ Main style.css missing'"
+        
+        # Check if functions.php exists
+        ssh -o StrictHostKeyChecking=no giow1015@giow1015.siteground.us \
+          "test -f ./www/terpedia.com/public_html/wp-content/themes/terpedia-theme/functions.php && echo '✅ functions.php exists' || echo '❌ functions.php missing'"
+        
+        # Check theme version
+        ssh -o StrictHostKeyChecking=no giow1015@giow1015.siteground.us \
+          "grep 'Version:' ./www/terpedia.com/public_html/wp-content/themes/terpedia-theme/style.css | head -1"
+        
+        echo "🎉 Verification completed!"
+    
+    - name: Notify success
+      if: success()
+      run: |
+        echo "🎉 Terpedia Theme successfully synced to terpedia.com!"
+        echo "📅 Sync completed at: $(date)"
+        echo "🔗 Theme URL: https://terpedia.com/wp-content/themes/terpedia-theme/"
+    
+    - name: Notify failure
+      if: failure()
+      run: |
+        echo "❌ Failed to sync Terpedia Theme to terpedia.com"
+        echo "📅 Failure occurred at: $(date)"
+        echo "Please check the logs and try again."
