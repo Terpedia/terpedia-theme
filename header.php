@@ -59,33 +59,162 @@
 <body <?php body_class(); ?>>
 
 <header class="site-header">
-    <div class="container">
+    <div class="header-container">
+        <!-- Logo and Branding -->
         <div class="site-branding">
-            <h1 class="site-title">
-                <a href="<?php echo esc_url(home_url('/')); ?>">
-                    <?php bloginfo('name'); ?>
-                </a>
-            </h1>
-            <p class="site-description"><?php bloginfo('description'); ?></p>
+            <a href="<?php echo esc_url(home_url('/')); ?>" class="brand-link">
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 2L20 8L28 10L24 16L28 22L20 24L16 30L12 24L4 22L8 16L4 10L12 8L16 2Z" fill="url(#gradient)" stroke="url(#gradient)" stroke-width="2"/>
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="brand-text">
+                        <h1 class="site-title">Terpedia</h1>
+                        <p class="site-tagline">Research Social Network</p>
+                    </div>
+                </div>
+            </a>
         </div>
         
+        <!-- Main Navigation -->
         <nav class="main-navigation">
             <?php
             wp_nav_menu(array(
                 'theme_location' => 'primary',
                 'menu_id' => 'primary-menu',
                 'fallback_cb' => function() {
-                    echo '<ul>';
-                    echo '<li><a href="' . esc_url(home_url('/')) . '">Home</a></li>';
-                    echo '<li><a href="' . esc_url(home_url('/members/')) . '">Members</a></li>';
-                    echo '<li><a href="' . esc_url(home_url('/activity/')) . '">Activity</a></li>';
-                    echo '<li><a href="' . esc_url(home_url('/agents/')) . '">Agents</a></li>';
-                    echo '<li><a href="' . esc_url(home_url('/tersona/')) . '">Tersona</a></li>';
-                    echo '<li><a href="' . esc_url(home_url('/cyc/')) . '">Encyclopedia</a></li>';
+                    echo '<ul class="nav-menu">';
+                    echo '<li><a href="' . esc_url(home_url('/')) . '" class="nav-link"><span class="nav-icon">🏠</span>Home</a></li>';
+                    echo '<li><a href="' . esc_url(home_url('/research-feed/')) . '" class="nav-link"><span class="nav-icon">📊</span>Research Feed</a></li>';
+                    echo '<li><a href="' . esc_url(home_url('/terports/')) . '" class="nav-link"><span class="nav-icon">🔬</span>Terports</a></li>';
+                    echo '<li><a href="' . esc_url(home_url('/cases/')) . '" class="nav-link"><span class="nav-icon">🏥</span>Cases</a></li>';
+                    echo '<li><a href="' . esc_url(home_url('/podcasts/')) . '" class="nav-link"><span class="nav-icon">🎙️</span>Podcasts</a></li>';
+                    echo '<li><a href="' . esc_url(home_url('/newsletters/')) . '" class="nav-link"><span class="nav-icon">📧</span>Newsletters</a></li>';
+                    echo '<li><a href="' . esc_url(home_url('/products/')) . '" class="nav-link"><span class="nav-icon">🧪</span>Products</a></li>';
+                    echo '<li><a href="' . esc_url(home_url('/encyclopedia/')) . '" class="nav-link"><span class="nav-icon">🧬</span>Encyclopedia</a></li>';
                     echo '</ul>';
                 }
             ));
             ?>
         </nav>
+        
+        <!-- Search and User Actions -->
+        <div class="header-actions">
+            <div class="search-container">
+                <input type="text" placeholder="Search research..." class="search-input" id="header-search">
+                <button class="search-button" type="button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                        <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="user-actions">
+                <a href="<?php echo esc_url(home_url('/login/')); ?>" class="action-link login-link">Login</a>
+                <a href="<?php echo esc_url(home_url('/signup/')); ?>" class="action-link signup-link">Sign Up</a>
+            </div>
+            
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigation -->
+    <div class="mobile-navigation" id="mobile-navigation">
+        <nav class="mobile-nav">
+            <ul class="mobile-nav-menu">
+                <li><a href="<?php echo esc_url(home_url('/')); ?>" class="mobile-nav-link">🏠 Home</a></li>
+                <li><a href="<?php echo esc_url(home_url('/research-feed/')); ?>" class="mobile-nav-link">📊 Research Feed</a></li>
+                <li><a href="<?php echo esc_url(home_url('/terports/')); ?>" class="mobile-nav-link">🔬 Terports</a></li>
+                <li><a href="<?php echo esc_url(home_url('/cases/')); ?>" class="mobile-nav-link">🏥 Cases</a></li>
+                <li><a href="<?php echo esc_url(home_url('/podcasts/')); ?>" class="mobile-nav-link">🎙️ Podcasts</a></li>
+                <li><a href="<?php echo esc_url(home_url('/newsletters/')); ?>" class="mobile-nav-link">📧 Newsletters</a></li>
+                <li><a href="<?php echo esc_url(home_url('/products/')); ?>" class="mobile-nav-link">🧪 Products</a></li>
+                <li><a href="<?php echo esc_url(home_url('/encyclopedia/')); ?>" class="mobile-nav-link">🧬 Encyclopedia</a></li>
+            </ul>
+        </nav>
     </div>
 </header>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    const mobileNavigation = document.getElementById('mobile-navigation');
+    
+    if (mobileMenuToggle && mobileNavigation) {
+        mobileMenuToggle.addEventListener('click', function() {
+            mobileNavigation.classList.toggle('active');
+            
+            // Animate hamburger lines
+            const lines = mobileMenuToggle.querySelectorAll('.hamburger-line');
+            if (mobileNavigation.classList.contains('active')) {
+                lines[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                lines[1].style.opacity = '0';
+                lines[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+            } else {
+                lines[0].style.transform = 'none';
+                lines[1].style.opacity = '1';
+                lines[2].style.transform = 'none';
+            }
+        });
+        
+        // Close mobile menu when clicking on a link
+        const mobileNavLinks = mobileNavigation.querySelectorAll('.mobile-nav-link');
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileNavigation.classList.remove('active');
+                const lines = mobileMenuToggle.querySelectorAll('.hamburger-line');
+                lines[0].style.transform = 'none';
+                lines[1].style.opacity = '1';
+                lines[2].style.transform = 'none';
+            });
+        });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!mobileMenuToggle.contains(event.target) && !mobileNavigation.contains(event.target)) {
+                mobileNavigation.classList.remove('active');
+                const lines = mobileMenuToggle.querySelectorAll('.hamburger-line');
+                lines[0].style.transform = 'none';
+                lines[1].style.opacity = '1';
+                lines[2].style.transform = 'none';
+            }
+        });
+    }
+    
+    // Search functionality
+    const searchInput = document.getElementById('header-search');
+    const searchButton = document.querySelector('.search-button');
+    
+    if (searchInput && searchButton) {
+        searchButton.addEventListener('click', function() {
+            const query = searchInput.value.trim();
+            if (query) {
+                // Redirect to search results page
+                window.location.href = '<?php echo esc_url(home_url('/search/')); ?>?s=' + encodeURIComponent(query);
+            }
+        });
+        
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = searchInput.value.trim();
+                if (query) {
+                    window.location.href = '<?php echo esc_url(home_url('/search/')); ?>?s=' + encodeURIComponent(query);
+                }
+            }
+        });
+    }
+});
+</script>
