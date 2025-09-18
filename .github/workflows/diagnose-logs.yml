@@ -1,0 +1,136 @@
+name: Diagnose Terpedia.com Server Logs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    
+    steps:
+    - name: Setup SSH with passphrase
+      run: |
+        # Install sshpass for passphrase handling
+        sudo apt-get update && sudo apt-get install -y sshpass
+        
+        # Create SSH directory and key file
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        
+        # Add host to known_hosts
+        ssh-keyscan -H -p 18765 giow1015.siteground.us >> ~/.ssh/known_hosts
+        
+        # Create SSH config to use the key with passphrase
+        cat > ~/.ssh/config << EOF
+        Host giow1015.siteground.us
+          HostName giow1015.siteground.us
+          Port 18765
+          User ${{ secrets.SSH_USER }}
+          IdentityFile ~/.ssh/id_rsa
+          StrictHostKeyChecking no
+        EOF
+        
+    - name: Check Server Logs and Status
+      run: |
+        echo "🔍 Checking Terpedia.com server status and logs..."
+        echo ""
+        
+        # Use the same SSH method as the working deployment
+        SSHPASS="${{ secrets.SSH_PASSPHRASE }}" sshpass -e ssh -p 18765 ${{ secrets.SSH_USER }}@giow1015.siteground.us << 'EOF'
+          echo "=== WEBSITE STATUS ==="
+          echo "Current time: $(date)"
+          curl -I -s -o /dev/null -w "HTTP Status: %{http_code}\nResponse Time: %{time_total}s\n" https://terpedia.com || echo "Website test failed"
+          echo ""
+          
+          echo "=== WORDPRESS DEBUG LOG ==="
+          if [ -f "${{ secrets.WP_ROOT_PATH }}/wp-content/debug.log" ]; then
+            echo "WordPress debug log found. Last 50 lines:"
+            tail -50 "${{ secrets.WP_ROOT_PATH }}/wp-content/debug.log"
+          else
+            echo "WordPress debug log not found at: ${{ secrets.WP_ROOT_PATH }}/wp-content/debug.log"
+          fi
+          echo ""
+          
+          echo "=== PHP ERROR LOGS ==="
+          if [ -f "/var/log/php_errors.log" ]; then
+            echo "PHP errors log found. Last 30 lines:"
+            tail -30 /var/log/php_errors.log
+          else
+            echo "PHP errors log not found"
+          fi
+          echo ""
+          
+          if [ -f "/var/log/php8.2-fpm.log" ]; then
+            echo "PHP-FPM log found. Last 30 lines:"
+            tail -30 /var/log/php8.2-fpm.log
+          else
+            echo "PHP-FPM log not found"
+          fi
+          echo ""
+          
+          echo "=== APACHE ERROR LOG ==="
+          if [ -f "/var/log/apache2/error.log" ]; then
+            echo "Apache error log found. Last 30 lines:"
+            tail -30 /var/log/apache2/error.log
+          else
+            echo "Apache error log not found"
+          fi
+          echo ""
+          
+          echo "=== THEME STATUS ==="
+          if [ -d "${{ secrets.WP_THEMES_PATH }}/terpedia-theme" ]; then
+            echo "Theme directory exists: Yes"
+            echo "Theme files count: $(find "${{ secrets.WP_THEMES_PATH }}/terpedia-theme" -type f | wc -l)"
+            if [ -f "${{ secrets.WP_THEMES_PATH }}/terpedia-theme/style.css" ]; then
+              echo "style.css exists: Yes"
+              echo "Theme version: $(grep 'Version:' "${{ secrets.WP_THEMES_PATH }}/terpedia-theme/style.css" | head -1 | cut -d' ' -f2)"
+            else
+              echo "style.css exists: No - CRITICAL ISSUE"
+            fi
+            if [ -f "${{ secrets.WP_THEMES_PATH }}/terpedia-theme/header.php" ]; then
+              echo "header.php exists: Yes"
+            else
+              echo "header.php exists: No - CRITICAL ISSUE"
+            fi
+          else
+            echo "Theme directory does not exist - CRITICAL ISSUE"
+          fi
+          echo ""
+          
+          echo "=== WORDPRESS CORE STATUS ==="
+          if command -v wp &> /dev/null; then
+            echo "WP-CLI available: Yes"
+            wp core version --path=${{ secrets.WP_ROOT_PATH }} --allow-root 2>/dev/null || echo "WordPress core check failed"
+            wp theme list --status=active --path=${{ secrets.WP_ROOT_PATH }} --allow-root 2>/dev/null || echo "Active theme check failed"
+          else
+            echo "WP-CLI not available"
+          fi
+          echo ""
+          
+          echo "=== RECENT ACCESS LOGS ==="
+          if [ -f "/var/log/apache2/access.log" ]; then
+            echo "Recent access log entries (last 10):"
+            tail -10 /var/log/apache2/access.log
+          else
+            echo "Apache access log not found"
+          fi
+          echo ""
+          
+          echo "=== SYSTEM STATUS ==="
+          echo "Server uptime: $(uptime)"
+          echo "Disk usage: $(df -h / | tail -1)"
+          echo "Memory usage: $(free -h | head -2)"
+        EOF
+        
+    - name: Create Diagnosis Summary
+      if: always()
+      run: |
+        echo "## 🔍 Terpedia.com Diagnosis Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Diagnosis Time:** $(date)" >> $GITHUB_STEP_SUMMARY
+        echo "**Status:** ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "Check the job logs above for detailed server information and error logs." >> $GITHUB_STEP_SUMMARY
