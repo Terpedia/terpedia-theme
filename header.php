@@ -65,15 +65,7 @@
             <a href="<?php echo esc_url(home_url('/')); ?>" class="brand-link">
                 <div class="logo-container">
                     <div class="logo-icon">
-                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M16 2L20 8L28 10L24 16L28 22L20 24L16 30L12 24L4 22L8 16L4 10L12 8L16 2Z" fill="url(#gradient)" stroke="url(#gradient)" stroke-width="2"/>
-                            <defs>
-                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
+                        <img src="<?php echo esc_url(get_template_directory_uri() . '/../attached_assets/IMG_9616_1752358879287.png'); ?>" alt="Terpedia Logo" width="32" height="32" style="object-fit: contain;" />
                     </div>
                     <div class="brand-text">
                         <h1 class="site-title">Terpedia</h1>
