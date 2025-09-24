@@ -89,7 +89,7 @@
                     echo '<li><a href="' . esc_url(home_url('/cases/')) . '" class="nav-link"><span class="nav-icon">🏥</span>Cases</a></li>';
                     echo '<li><a href="' . esc_url(home_url('/podcasts/')) . '" class="nav-link"><span class="nav-icon">🎙️</span>Podcasts</a></li>';
                     echo '<li><a href="' . esc_url(home_url('/newsletters/')) . '" class="nav-link"><span class="nav-icon">📧</span>Newsletters</a></li>';
-                    echo '<li><a href="' . esc_url(home_url('/products/')) . '" class="nav-link"><span class="nav-icon">🧪</span>Products</a></li>';
+                    echo '<li><a href="' . esc_url(home_url('/products/')) . '" class="nav-link"><span class="nav-icon">🧪</span>Terproducts</a></li>';
                     echo '<li><a href="' . esc_url(home_url('/encyclopedia/')) . '" class="nav-link"><span class="nav-icon">🧬</span>Encyclopedia</a></li>';
                     echo '<li><a href="' . esc_url(home_url('/about/')) . '" class="nav-link"><span class="nav-icon">ℹ️</span>About</a></li>';
                     echo '</ul>';
